@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DomainDrivenDesign")]
@@ -20,3 +21,4 @@ using System.Reflection;
     "Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly", Justification = "Using SemVer in AssemblyInformationalVersion.")]
 
 [assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
