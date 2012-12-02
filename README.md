@@ -1,4 +1,4 @@
-domaindrivendesign
+DomainDrivenDesign
 ==================
 
-A .NET framework for building applications using Domain Driven Design.
+A .NET framework for building applications using domain driven design.
