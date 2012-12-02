@@ -1,10 +1,18 @@
 require 'albacore'
 require 'fileutils'
 
-task :default => [ :output ]
+task :default => [ :nugetpack ]
 
-desc "Output"
-output :output => [:build] do |out|
+desc "Create the nuget package"
+nugetpack :nugetpack => [ :output ] do |nuget|
+  nuget.command     = "../packages/NuGet.CommandLine.2.1.2/tools/NuGet.exe"
+  nuget.nuspec      = "DomainDrivenDesign.nuspec"
+  nuget.base_folder = "bin"
+  nuget.output      = "bin"
+end
+
+desc "Prepare the output folder"
+output :output => [ :build ] do |out|
   FileUtils.rmtree "bin"
   FileUtils.mkpath "bin/lib/net35"
   

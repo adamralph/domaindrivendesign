@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>DomainDrivenDesign</id>
+    <version>0.1.0-alpha01</version>
+    <title>DomainDrivenDesign</title>
+    <authors>Adam Ralph, DomainDrivenDesign contributors</authors>
+    <projectUrl>https://github.com/domaindrivendesign/domaindrivendesign</projectUrl>
+    <licenseUrl>https://github.com/domaindrivendesign/domaindrivendesign/blob/master/license.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET framework for building applications using Domain Driven Design.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright (c) DomainDrivenDesign contributors. (domaindrivendesignch@gmail.com)</copyright>
+    <tags>DDD domain driven design</tags>
+  </metadata>
+</package>
