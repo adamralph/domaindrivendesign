@@ -4,9 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1ACB54A8-F051-44E8-B492-8E904B039CC0}"
 	ProjectSection(SolutionItems) = preProject
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+		DomainDrivenDesign.nuspec = DomainDrivenDesign.nuspec
 		DomainDrivenDesign.ruleset = DomainDrivenDesign.ruleset
 		DomainDrivenDesign.snk = DomainDrivenDesign.snk
 		nuget.config = nuget.config
+		rakefile.rb = rakefile.rb
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
