@@ -5,6 +5,8 @@
 namespace DomainDrivenDesign
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -36,9 +38,22 @@ namespace DomainDrivenDesign
 
         private static BinaryExpression Generate(Expression left, Expression right, PropertyInfo property)
         {
+            var type = property.PropertyType;
+            if (type != typeof(string))
+            {
+                var genericEnumerableInterfaces =
+                    type.GetInterfaces().Where(candidate => typeof(IEnumerable).IsAssignableFrom(candidate) && candidate.IsGenericType).ToArray();
+                if (genericEnumerableInterfaces.Any())
+                {
+                    foreach (var interfaceType in genericEnumerableInterfaces)
+                    {                        
+                    }
+                }
+            }
+
             var leftProperty = Expression.Property(left, property);
             var rightProperty = Expression.Property(right, property);
-            for (var type = property.PropertyType; type != null; type = type.BaseType)
+            for (; type != null; type = type.BaseType)
             {
                 var method = type.GetMethods()
                     .Where(candidate => candidate.Name == "op_Equality")
