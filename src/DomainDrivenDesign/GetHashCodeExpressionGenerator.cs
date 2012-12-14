@@ -13,17 +13,16 @@ namespace DomainDrivenDesign
     {
         public static Expression<Func<object, int>> Generate(Type type)
         {
-            var parameter = Expression.Parameter(typeof(object), "obj");
-            var argument = Expression.TypeAs(parameter, type);
+            var obj = Expression.Parameter(typeof(object), "obj");
             var body = type.GetProperties()
                 .Select(property => Expression.Call(
                     typeof(ObjectExtensions).GetMethod("GetHashCodeOrDefault").MakeGenericMethod(property.PropertyType),
-                    Expression.Property(argument, property)))
+                    Expression.Property(Expression.TypeAs(obj, type), property)))
                 .Aggregate(
                     (Expression)Expression.Constant(17),
                     (expression, propertyExpression) => Expression.Add(Expression.Multiply(expression, Expression.Constant(23)), propertyExpression));
 
-            return Expression.Lambda<Func<object, int>>(body, parameter);
+            return Expression.Lambda<Func<object, int>>(body, obj);
         }
     }
 }

@@ -14,62 +14,46 @@ namespace DomainDrivenDesign
     // NOTE (Adam): expression building inspired by http://stackoverflow.com/a/986617/49241 and http://www.brad-smith.info/blog/archives/385
     internal static class EqualityExpressionGenerator
     {
+        private static readonly MethodInfo CastToObjects = typeof(object).MakeEnumerableCastMethod();
+        private static readonly MethodInfo ObjectsEqual = typeof(object).MakeEnumerableSequenceEqualMethod();
+
         public static Expression<Func<object, object, bool>> Generate(Type type)
         {
-            var leftParameter = Expression.Parameter(typeof(object), "left");
-            var rightParameter = Expression.Parameter(typeof(object), "right");
+            var left = Expression.Parameter(typeof(object), "left");
+            var right = Expression.Parameter(typeof(object), "right");
 
-            var properties = type.GetProperties();
-            if (properties.Length == 0)
-            {
-                return Expression.Lambda<Func<object, object, bool>>(Expression.Constant(true), leftParameter, rightParameter);
-            }
+            var body = type.GetProperties()
+                .Select(property => Generate(type, property, left, right))
+                .Aggregate((Expression)Expression.Constant(true), (current, expression) => Expression.AndAlso(current, expression));
 
-            var left = Expression.Convert(leftParameter, type);
-            var right = Expression.Convert(rightParameter, type);
-
-            var body = properties
-                .Select(property => Generate(left, right, property))
-                .Aggregate(
-                    (Expression)Expression.Constant(true), (expression, propertyExpression) => Expression.AndAlso(expression, propertyExpression));
-
-            return Expression.Lambda<Func<object, object, bool>>(body, leftParameter, rightParameter);
+            return Expression.Lambda<Func<object, object, bool>>(body, left, right);
         }
 
-        private static BinaryExpression Generate(Expression left, Expression right, PropertyInfo property)
+        private static Expression Generate(Type type, PropertyInfo property, Expression left, Expression right)
         {
-            var type = property.PropertyType;
-            if (type != typeof(string))
+            var leftProperty = Expression.Property(Expression.Convert(left, type), property);
+            var rightProperty = Expression.Property(Expression.Convert(right, type), property);
+
+            // TODO (Adam): optimise for IList - see http://stackoverflow.com/a/486781/49241
+            if (property.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
             {
-                var genericEnumerableInterfaces =
-                    type.GetInterfaces().Where(candidate => typeof(IEnumerable).IsAssignableFrom(candidate) && candidate.IsGenericType).ToArray();
-                if (genericEnumerableInterfaces.Any())
+                var genericInterfaces = property.PropertyType.GetInterfaces()
+                    .Where(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(IEnumerable<>)).ToArray();
+
+                if (genericInterfaces.Any())
                 {
-                    foreach (var interfaceType in genericEnumerableInterfaces)
-                    {                        
-                    }
+                    return genericInterfaces
+                        .Select(@interface => Expression.Call(
+                            @interface.GetGenericArguments()[0].MakeEnumerableSequenceEqualMethod(),
+                            Expression.Convert(leftProperty, @interface),
+                            Expression.Convert(rightProperty, @interface)))
+                        .Aggregate((Expression)Expression.Constant(true), (current, expression) => Expression.AndAlso(current, expression));
                 }
+
+                return Expression.Equal(Expression.Call(CastToObjects, leftProperty), Expression.Call(CastToObjects, rightProperty), false, ObjectsEqual);
             }
 
-            var leftProperty = Expression.Property(left, property);
-            var rightProperty = Expression.Property(right, property);
-            for (; type != null; type = type.BaseType)
-            {
-                var method = type.GetMethods()
-                    .Where(candidate => candidate.Name == "op_Equality")
-                    .FirstOrDefault(x =>
-                    {
-                        var parameters = x.GetParameters();
-                        return parameters[0].ParameterType == type && parameters[1].ParameterType == type;
-                    });
-
-                if (method != null)
-                {
-                    return Expression.Equal(leftProperty, rightProperty, false, method);
-                }
-            }
-
-            return Expression.Equal(leftProperty, rightProperty);
+            return Expression.Equal(leftProperty, rightProperty, false, property.PropertyType.GetEqualityOperator());
         }
     }
 }
