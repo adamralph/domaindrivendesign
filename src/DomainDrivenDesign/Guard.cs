@@ -15,7 +15,7 @@ namespace DomainDrivenDesign
         {
             if (argument == null)
             {
-                throw new ArgumentNullException(parameterName, string.Format(CultureInfo.InvariantCulture, "{0} is null.", parameterName));
+                throw new ArgumentNullException(parameterName);
             }
         }
 
