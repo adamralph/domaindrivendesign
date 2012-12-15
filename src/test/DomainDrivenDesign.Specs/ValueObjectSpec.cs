@@ -207,7 +207,52 @@ namespace DomainDrivenDesign.Specs
             "Then the result should be {6}"
                 .When(() => result.Should().Be(expectedResult));
         }
-        
+
+        [Scenario]
+        [Example(1, 2, 3, "a", "b", "c", 1, 2, 3, "a", "b", "c", true)]
+        [Example(1, 2, 4, "a", "b", "c", 1, 2, 3, "a", "b", "c", false)]
+        [Example(1, 2, 3, "a", "b", "d", 1, 2, 3, "a", "b", "c", false)]
+        public static void ComparisonOfObjectsWithGenericDoubleEnumerableProperties(
+            int? left0,
+            int? left1,
+            int? left2,
+            string left3,
+            string left4,
+            string left5,
+            int? right0,
+            int? right1,
+            int? right2,
+            string right3,
+            string right4,
+            string right5,
+            bool expectedResult,
+            ObjectWithAGenericDoubleEnumerableProperty left,
+            ObjectWithAGenericDoubleEnumerableProperty right,
+            bool result)
+        {
+            "Given an object with a generic enumerable property consisting of {0}, {1} and {2}"
+                .Given(() => left = new ObjectWithAGenericDoubleEnumerableProperty
+                {
+                    Foo = new ObjectWithAGenericDoubleEnumerableProperty.Collection(
+                        new[] { left0, left1, left2 }.Where(item => item.HasValue).Select(item => item.Value),
+                        new[] { left3, left4, left5 }.Where(item => item != null))
+                });
+
+            "And another object with a generic enumerable property consisting of {3}, {4} and {5}"
+                .And(() => right = new ObjectWithAGenericDoubleEnumerableProperty
+                {
+                    Foo = new ObjectWithAGenericDoubleEnumerableProperty.Collection(
+                        new[] { right0, right1, right2 }.Where(item => item.HasValue).Select(item => item.Value),
+                        new[] { right3, right4, right5 }.Where(item => item != null))
+                });
+
+            "When I compare the objects for equality"
+                .When(() => result = left == right);
+
+            "Then the result should be {6}"
+                .When(() => result.Should().Be(expectedResult));
+        }
+
         public class SimpleObject : ValueObject
         {
             public int Foo { get; set; }
@@ -250,19 +295,19 @@ namespace DomainDrivenDesign.Specs
                     this.list = items.ToList();
                 }
 
-                IEnumerator<int> IEnumerable<int>.GetEnumerator()
+                IEnumerator IEnumerable.GetEnumerator()
                 {
                     return this.list.GetEnumerator();
                 }
 
-                IEnumerator IEnumerable.GetEnumerator()
+                IEnumerator<int> IEnumerable<int>.GetEnumerator()
                 {
                     return this.list.GetEnumerator();
                 }
             }
         }
 
-        public class DoubleGenericEnumerableObject : ValueObject
+        public class ObjectWithAGenericDoubleEnumerableProperty : ValueObject
         {
             public Collection Foo { get; set; }
 
@@ -277,12 +322,12 @@ namespace DomainDrivenDesign.Specs
                     this.stringList = stringItems.ToList();
                 }
 
-                IEnumerator<int> IEnumerable<int>.GetEnumerator()
+                IEnumerator IEnumerable.GetEnumerator()
                 {
                     return this.int32List.GetEnumerator();
                 }
 
-                IEnumerator IEnumerable.GetEnumerator()
+                IEnumerator<int> IEnumerable<int>.GetEnumerator()
                 {
                     return this.int32List.GetEnumerator();
                 }
