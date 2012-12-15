@@ -96,9 +96,9 @@ namespace DomainDrivenDesign.Specs
         }
 
         [Scenario]
-        [Example(123, "foo", 234, 1816504635)]
-        [Example(int.MaxValue, "foo", int.MaxValue, 1816438804)]
-        public static void SimpleObjectHashCodeGeneration(int foo, string bar, int baz, int expectedHashCode, SimpleObject simpleObject, int hashCode)
+        [Example(123, "bar", 234)]
+        [Example(int.MaxValue, "bar", int.MaxValue)]
+        public static void SimpleObjectHashCodeGeneration(int foo, string bar, int baz, SimpleObject simpleObject, int hashCode)
         {
             "Given a simple object with Foo={0}, Bar='{1}' and Baz={2}"
                 .Given(() => simpleObject = new SimpleObject { Foo = foo, Bar = bar, Baz = baz });
@@ -106,13 +106,20 @@ namespace DomainDrivenDesign.Specs
             "When getting the hash code of the object"
                 .When(() => hashCode = simpleObject.GetHashCode());
 
-            "Then the hash code should be {3}"
-                .Then(() => hashCode.Should().Be(expectedHashCode));
+            "Then the hash code should be the result of multiplication by 23 and addition the hash code of each properties seeded with 17"
+                .Then(() =>
+                {
+                    var expectedHashCode = 17;
+                    expectedHashCode = (expectedHashCode * 23) + foo.GetHashCode();
+                    expectedHashCode = (expectedHashCode * 23) + bar.GetHashCode();
+                    expectedHashCode = (expectedHashCode * 23) + baz.GetHashCode();
+                    hashCode.Should().Be(expectedHashCode);
+                });
         }
 
         [Scenario]
-        [Example(123, "foo", 234)]
-        [Example(int.MaxValue, "foo", int.MaxValue)]
+        [Example(123, "bar", 234)]
+        [Example(int.MaxValue, "bar", int.MaxValue)]
         public static void SimpleObjectHashCodeComparison(
             int foo, string bar, int baz, SimpleObject first, SimpleObject second, int firstHashCode, int secondHashCode)
         {
