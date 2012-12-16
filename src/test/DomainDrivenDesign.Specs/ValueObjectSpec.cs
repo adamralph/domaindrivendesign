@@ -165,10 +165,10 @@ namespace DomainDrivenDesign.Specs
 
             "And another object with an enumerable property consisting of {3}, {4} and {5}"
                 .And(() => right = new ObjectWithANonGenericEnumerableProperty
-                {
-                    Foo = new ObjectWithANonGenericEnumerableProperty.Collection(
-                        new[] { right0, right1, right2 }.Where(item => item.HasValue).Select(item => item.Value))
-                });
+                    {
+                        Foo = new ObjectWithANonGenericEnumerableProperty.Collection(
+                            new[] { right0, right1, right2 }.Where(item => item.HasValue).Select(item => item.Value))
+                    });
 
             "When I compare the objects for equality"
                 .When(() => result = left == right);
@@ -196,17 +196,17 @@ namespace DomainDrivenDesign.Specs
         {
             "Given an object with a generic enumerable property consisting of {0}, {1} and {2}"
                 .Given(() => left = new ObjectWithAGenericEnumerableProperty
-                {
-                    Foo = new ObjectWithAGenericEnumerableProperty.Collection(
-                        new[] { left0, left1, left2 }.Where(item => item.HasValue).Select(item => item.Value))
-                });
+                    {
+                        Foo = new ObjectWithAGenericEnumerableProperty.Collection(
+                            new[] { left0, left1, left2 }.Where(item => item.HasValue).Select(item => item.Value))
+                    });
 
             "And another object with a generic enumerable property consisting of {3}, {4} and {5}"
                 .And(() => right = new ObjectWithAGenericEnumerableProperty
-                {
-                    Foo = new ObjectWithAGenericEnumerableProperty.Collection(
-                        new[] { right0, right1, right2 }.Where(item => item.HasValue).Select(item => item.Value))
-                });
+                    {
+                        Foo = new ObjectWithAGenericEnumerableProperty.Collection(
+                            new[] { right0, right1, right2 }.Where(item => item.HasValue).Select(item => item.Value))
+                    });
 
             "When I compare the objects for equality"
                 .When(() => result = left == right);
@@ -220,15 +220,15 @@ namespace DomainDrivenDesign.Specs
         [Example(1, 2, 4, "a", "b", "c", 1, 2, 3, "a", "b", "c", false)]
         [Example(1, 2, 3, "a", "b", "d", 1, 2, 3, "a", "b", "c", false)]
         public static void ComparisonOfObjectsWithGenericDoubleEnumerableProperties(
-            int? left0,
-            int? left1,
-            int? left2,
+            int left0,
+            int left1,
+            int left2,
             string left3,
             string left4,
             string left5,
-            int? right0,
-            int? right1,
-            int? right2,
+            int right0,
+            int right1,
+            int right2,
             string right3,
             string right4,
             string right5,
@@ -239,19 +239,50 @@ namespace DomainDrivenDesign.Specs
         {
             "Given an object with a generic enumerable property consisting of {0}, {1} and {2}"
                 .Given(() => left = new ObjectWithAGenericDoubleEnumerableProperty
-                {
-                    Foo = new ObjectWithAGenericDoubleEnumerableProperty.Collection(
-                        new[] { left0, left1, left2 }.Where(item => item.HasValue).Select(item => item.Value),
-                        new[] { left3, left4, left5 }.Where(item => item != null))
-                });
+                    {
+                        Foo = new ObjectWithAGenericDoubleEnumerableProperty.Collection(new[] { left0, left1, left2 }, new[] { left3, left4, left5 })
+                    });
 
             "And another object with a generic enumerable property consisting of {3}, {4} and {5}"
                 .And(() => right = new ObjectWithAGenericDoubleEnumerableProperty
-                {
-                    Foo = new ObjectWithAGenericDoubleEnumerableProperty.Collection(
-                        new[] { right0, right1, right2 }.Where(item => item.HasValue).Select(item => item.Value),
-                        new[] { right3, right4, right5 }.Where(item => item != null))
-                });
+                    {
+                        Foo = new ObjectWithAGenericDoubleEnumerableProperty.Collection(new[] { right0, right1, right2 }, new[] { right3, right4, right5 })
+                    });
+
+            "When I compare the objects for equality"
+                .When(() => result = left == right);
+
+            "Then the result should be {6}"
+                .When(() => result.Should().Be(expectedResult));
+        }
+
+        [Scenario]
+        [Example(1, 2, 3, 1, 2, 3, true)]
+        [Example(1, 2, 3, 3, 2, 1, true)]
+        [Example(1, 2, 4, 1, 2, 3, false)]
+        public static void ComparisonOfObjectsWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty(
+            int left0,
+            int left1,
+            int left2,
+            int right0,
+            int right1,
+            int right2,
+            bool expectedResult,
+            ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty left,
+            ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty right,
+            bool result)
+        {
+            "Given an object with an order insensitive equality overridden enumerable property consisting of {0}, {1} and {2}"
+                .Given(() => left = new ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty
+                    {
+                        Foo = new ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty.Collection(new[] { left0, left1, left2 })
+                    });
+
+            "And another object with an order insensitive equality overridden enumerable property consisting of {3}, {4} and {5}"
+                .And(() => right = new ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty
+                    {
+                        Foo = new ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty.Collection(new[] { right0, right1, right2 })
+                    });
 
             "When I compare the objects for equality"
                 .When(() => result = left == right);
@@ -342,6 +373,57 @@ namespace DomainDrivenDesign.Specs
                 IEnumerator<string> IEnumerable<string>.GetEnumerator()
                 {
                     return this.stringList.GetEnumerator();
+                }
+            }
+        }
+
+        public class ObjectWithAnOrderInsensitiveEqualityOverriddenEnumerableProperty : ValueObject
+        {
+            public Collection Foo { get; set; }
+
+            public class Collection : IEnumerable
+            {
+                private readonly int[] array;
+
+                public Collection(IEnumerable<int> items)
+                {
+                    this.array = items.ToArray();
+                }
+
+                public static bool operator ==(Collection left, Collection right)
+                {
+                    return (object)left == null ? (object)right == null : left.Equals(right);
+                }
+
+                public static bool operator !=(Collection left, Collection right)
+                {
+                    return !(left == right);
+                }
+
+                public override bool Equals(object obj)
+                {
+                    if (obj == null)
+                    {
+                        return false;
+                    }
+
+                    if (ReferenceEquals(this, obj))
+                    {
+                        return true;
+                    }
+
+                    var type = this.GetType();
+                    return type == obj.GetType() && this.array.OrderBy(item => item).SequenceEqual(((Collection)obj).array.OrderBy(item => item));
+                }
+
+                public override int GetHashCode()
+                {
+                    return 0;
+                }
+
+                public IEnumerator GetEnumerator()
+                {
+                    return this.array.GetEnumerator();
                 }
             }
         }

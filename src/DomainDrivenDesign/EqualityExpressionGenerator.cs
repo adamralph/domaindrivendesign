@@ -31,11 +31,12 @@ namespace DomainDrivenDesign
 
         private static Expression Generate(Type type, PropertyInfo property, Expression left, Expression right)
         {
+            var equalityOperator = property.PropertyType.GetEqualityOperatorOrDefault();
             var leftProperty = Expression.Property(Expression.Convert(left, type), property);
             var rightProperty = Expression.Property(Expression.Convert(right, type), property);
 
             // TODO (Adam): optimise for IList - see http://stackoverflow.com/a/486781/49241
-            if (property.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
+            if (equalityOperator == null && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
             {
                 var genericInterfaces = property.PropertyType.GetInterfaces()
                     .Where(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(IEnumerable<>)).ToArray();
@@ -53,7 +54,7 @@ namespace DomainDrivenDesign
                 return Expression.Equal(Expression.Call(CastToObjects, leftProperty), Expression.Call(CastToObjects, rightProperty), false, ObjectsEqual);
             }
 
-            return Expression.Equal(leftProperty, rightProperty, false, property.PropertyType.GetEqualityOperator());
+            return Expression.Equal(leftProperty, rightProperty, false, equalityOperator);
         }
     }
 }

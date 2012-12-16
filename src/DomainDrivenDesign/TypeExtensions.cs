@@ -27,7 +27,7 @@ namespace DomainDrivenDesign
             return typeof(EnumerableProxy).GetMethod("SequenceEqual").MakeGenericMethod(type);
         }
 
-        public static MethodInfo GetEqualityOperator(this Type type)
+        public static MethodInfo GetEqualityOperatorOrDefault(this Type type)
         {
             Guard.AgainstNullArgument("type", type);
 

@@ -17,7 +17,7 @@ output :output => [ :spec ] do |out|
   FileUtils.mkpath "bin/lib/net40"
   
   out.from "DomainDrivenDesign/bin/Release"
-  out.to "bin/lib/net35"
+  out.to "bin/lib/net40"
   out.file "DomainDrivenDesign.dll"
   out.file "DomainDrivenDesign.xml"
 end
