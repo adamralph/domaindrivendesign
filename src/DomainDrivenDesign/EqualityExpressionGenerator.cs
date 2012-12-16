@@ -23,22 +23,23 @@ namespace DomainDrivenDesign
             var right = Expression.Parameter(typeof(object), "right");
 
             var body = type.GetProperties()
-                .Select(property => Generate(type, property, left, right))
+                .Select(property => Generate(
+                    property.PropertyType,
+                    Expression.Property(Expression.Convert(left, type), property),
+                    Expression.Property(Expression.Convert(right, type), property)))
                 .Aggregate((Expression)Expression.Constant(true), (current, expression) => Expression.AndAlso(current, expression));
 
             return Expression.Lambda<Func<object, object, bool>>(body, left, right);
         }
 
-        private static Expression Generate(Type type, PropertyInfo property, Expression left, Expression right)
+        private static Expression Generate(Type type, Expression left, Expression right)
         {
-            var equalityOperator = property.PropertyType.GetEqualityOperatorOrDefault();
-            var leftProperty = Expression.Property(Expression.Convert(left, type), property);
-            var rightProperty = Expression.Property(Expression.Convert(right, type), property);
+            var equalityOperator = type.GetEqualityOperatorOrDefault();
 
             // TODO (Adam): optimise for IList - see http://stackoverflow.com/a/486781/49241
-            if (equalityOperator == null && typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
+            if (equalityOperator == null && typeof(IEnumerable).IsAssignableFrom(type))
             {
-                var genericInterfaces = property.PropertyType.GetInterfaces()
+                var genericInterfaces = type.GetInterfaces()
                     .Where(@interface => @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(IEnumerable<>)).ToArray();
 
                 if (genericInterfaces.Any())
@@ -46,15 +47,15 @@ namespace DomainDrivenDesign
                     return genericInterfaces
                         .Select(@interface => Expression.Call(
                             @interface.GetGenericArguments()[0].MakeEnumerableSequenceEqualMethod(),
-                            Expression.Convert(leftProperty, @interface),
-                            Expression.Convert(rightProperty, @interface)))
+                            Expression.Convert(left, @interface),
+                            Expression.Convert(right, @interface)))
                         .Aggregate((Expression)Expression.Constant(true), (current, expression) => Expression.AndAlso(current, expression));
                 }
 
-                return Expression.Equal(Expression.Call(CastToObjects, leftProperty), Expression.Call(CastToObjects, rightProperty), false, ObjectsEqual);
+                return Expression.Equal(Expression.Call(CastToObjects, left), Expression.Call(CastToObjects, right), false, ObjectsEqual);
             }
 
-            return Expression.Equal(leftProperty, rightProperty, false, equalityOperator);
+            return Expression.Equal(left, right, false, equalityOperator);
         }
     }
 }
