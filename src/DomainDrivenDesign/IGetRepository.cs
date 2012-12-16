@@ -8,7 +8,7 @@ namespace DomainDrivenDesign
     using System.Runtime.InteropServices;
 
     /// <summary>
-    /// Encapsulates the retrieval of aggregate root entities.
+    /// Encapsulates the retrieval of persistent aggregate root entities.
     /// </summary>
     /// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
     /// <typeparam name="TIdentity">The type of the identity of the aggregate root.</typeparam>
