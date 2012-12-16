@@ -6,7 +6,6 @@ namespace DomainDrivenDesign
 {
     using System;
     using System.Diagnostics;
-    using System.Globalization;
 
     internal static class Guard
     {

@@ -80,7 +80,7 @@ namespace DomainDrivenDesign
             }
 
             var type = this.GetType();
-            return type == obj.GetType() && EqualsMethods.GetOrAdd(type, key => EqualityExpressionGenerator.Generate(key).Compile())(this, obj);
+            return type == obj.GetType() && EqualsMethods.GetOrAdd(type, key => EqualsGenerator.Generate(key))(this, obj);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace DomainDrivenDesign
         /// </returns>
         public override int GetHashCode()
         {
-            var method = GetHashCodeMethods.GetOrAdd(this.GetType(), key => GetHashCodeExpressionGenerator.Generate(key).Compile());
+            var method = GetHashCodeMethods.GetOrAdd(this.GetType(), key => GetHashCodeGenerator.Generate(key));
             unchecked
             {
                 return method(this);

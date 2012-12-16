@@ -50,8 +50,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="EnumerableProxy.cs" />
-    <Compile Include="GetHashCodeExpressionGenerator.cs" />
-    <Compile Include="EqualityExpressionGenerator.cs" />
+    <Compile Include="GetHashCodeGenerator.cs" />
+    <Compile Include="EqualsGenerator.cs" />
     <Compile Include="ValueObject.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Guard.cs" />

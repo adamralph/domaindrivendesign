@@ -1,4 +1,4 @@
-﻿// <copyright file="EqualityExpressionGenerator.cs" company="DomainDrivenDesign contributors">
+﻿// <copyright file="EqualsGenerator.cs" company="DomainDrivenDesign contributors">
 //  Copyright (c) DomainDrivenDesign contributors. All rights reserved.
 // </copyright>
 
@@ -12,12 +12,12 @@ namespace DomainDrivenDesign
     using System.Reflection;
 
     // NOTE (Adam): expression building inspired by http://stackoverflow.com/a/986617/49241 and http://www.brad-smith.info/blog/archives/385
-    internal static class EqualityExpressionGenerator
+    internal static class EqualsGenerator
     {
         private static readonly MethodInfo CastToObjects = typeof(object).MakeEnumerableCastMethod();
         private static readonly MethodInfo ObjectsEqual = typeof(object).MakeEnumerableSequenceEqualMethod();
 
-        public static Expression<Func<object, object, bool>> Generate(Type type)
+        public static Func<object, object, bool> Generate(Type type)
         {
             var left = Expression.Parameter(typeof(object), "left");
             var right = Expression.Parameter(typeof(object), "right");
@@ -29,7 +29,7 @@ namespace DomainDrivenDesign
                     Expression.Property(Expression.Convert(right, type), property)))
                 .Aggregate((Expression)Expression.Constant(true), (current, expression) => Expression.AndAlso(current, expression));
 
-            return Expression.Lambda<Func<object, object, bool>>(body, left, right);
+            return Expression.Lambda<Func<object, object, bool>>(body, left, right).Compile();
         }
 
         private static Expression Generate(Type type, Expression left, Expression right)
