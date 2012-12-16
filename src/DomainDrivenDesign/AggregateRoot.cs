@@ -8,9 +8,9 @@ namespace DomainDrivenDesign
     using System.Runtime.InteropServices;
 
     /// <summary>
-    /// An entity which is the root of an aggregate.
+    /// An root entity of an aggregate.
     /// </summary>
-    /// <typeparam name="TIdentity">The type of the identity.</typeparam>
+    /// <typeparam name="TIdentity">The type of the identity of the aggregate root.</typeparam>
     [Serializable]
     [ComVisible(true)]
     public abstract class AggregateRoot<TIdentity> : Entity<TIdentity>

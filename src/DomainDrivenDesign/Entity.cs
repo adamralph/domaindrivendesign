@@ -11,7 +11,7 @@ namespace DomainDrivenDesign
     /// <summary>
     /// An object defined by a thread of continuity and identity.
     /// </summary>
-    /// <typeparam name="TIdentity">The type of the identity.</typeparam>
+    /// <typeparam name="TIdentity">The type of the identity of the entity.</typeparam>
     [Serializable]
     [ComVisible(true)]
     public abstract class Entity<TIdentity> : IEquatable<Entity<TIdentity>>
