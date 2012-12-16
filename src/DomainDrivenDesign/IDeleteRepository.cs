@@ -4,7 +4,6 @@
 
 namespace DomainDrivenDesign
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
 
     /// <summary>
