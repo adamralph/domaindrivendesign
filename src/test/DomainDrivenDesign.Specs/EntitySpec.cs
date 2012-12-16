@@ -6,9 +6,6 @@ namespace DomainDrivenDesign.Specs
 {
     using DomainDrivenDesign;
     using FluentAssertions;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
     using Xbehave;
 
     public static class EntitySpec
