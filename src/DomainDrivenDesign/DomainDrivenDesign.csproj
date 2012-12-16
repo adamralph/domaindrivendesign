@@ -66,7 +66,6 @@
     <None Include="..\DomainDrivenDesign.snk">
       <Link>Properties\DomainDrivenDesign.snk</Link>
     </None>
-    <None Include="EnumerableTypes.linq" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
