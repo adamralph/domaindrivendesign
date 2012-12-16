@@ -118,28 +118,6 @@ namespace DomainDrivenDesign.Specs
         }
 
         [Scenario]
-        [Example(123, "bar", 234)]
-        [Example(int.MaxValue, "bar", int.MaxValue)]
-        public static void SimpleObjectHashCodeComparison(
-            int foo, string bar, int baz, SimpleObject first, SimpleObject second, int firstHashCode, int secondHashCode)
-        {
-            "Given a simple object with Foo={0}, Bar='{1}' and Baz={2}"
-                .Given(() => first = new SimpleObject { Foo = foo, Bar = bar, Baz = baz });
-
-            "And another simple object with Foo={0}, Bar='{1}' and Baz={2}"
-                .And(() => second = new SimpleObject { Foo = foo, Bar = bar, Baz = baz });
-
-            "When getting the hash code of the first object"
-                .When(() => firstHashCode = first.GetHashCode());
-
-            "And getting the hash code of the second object"
-                .And(() => secondHashCode = second.GetHashCode());
-
-            "Then the hash codes should be equal"
-                .Then(() => firstHashCode.Should().Be(secondHashCode));
-        }
-
-        [Scenario]
         [Example(1, 2, 3, 1, 2, 3, true)]
         [Example(1, 2, 3, 1, 2, null, false)]
         [Example(1, 2, 3, 2, 1, 3, false)]

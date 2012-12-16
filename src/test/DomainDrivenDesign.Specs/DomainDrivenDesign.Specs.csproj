@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntitySpec.cs" />
     <Compile Include="ValueObjectSpec.cs" />
   </ItemGroup>
   <ItemGroup>
