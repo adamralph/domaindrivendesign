@@ -26,7 +26,7 @@ desc "Execute specs"
 xunit :spec => :build do |xunit|
   xunit.command = "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
-  xunit.options '/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.html'
+  xunit.html_output = "test/DomainDrivenDesign.Specs/bin/Debug"
 end
 
 desc "Build solution"
