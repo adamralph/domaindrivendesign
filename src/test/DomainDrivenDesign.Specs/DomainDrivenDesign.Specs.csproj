@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1C328E4B-0712-405A-99C5-9AAECC34F0F1}</ProjectGuid>
+    <ProjectGuid>{53B6AD8C-C77A-4200-9559-A9EA4514A720}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DomainDrivenDesign</RootNamespace>
-    <AssemblyName>DomainDrivenDesign</AssemblyName>
+    <RootNamespace>DomainDrivenDesign.Specs</RootNamespace>
+    <AssemblyName>DomainDrivenDesign.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -25,48 +25,37 @@
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
-    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\DomainDrivenDesign.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\DomainDrivenDesign.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\DomainDrivenDesign.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="EnumerableProxy.cs" />
-    <Compile Include="GetHashCodeExpressionGenerator.cs" />
-    <Compile Include="EqualityExpressionGenerator.cs" />
-    <Compile Include="ValueObject.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Guard.cs" />
-    <Compile Include="ObjectExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeExtensions.cs" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\DomainDrivenDesign.ruleset">
-      <Link>Properties\DomainDrivenDesign.ruleset</Link>
-    </CodeAnalysisDictionary>
-    <None Include="..\DomainDrivenDesign.snk">
-      <Link>Properties\DomainDrivenDesign.snk</Link>
-    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\..\..\packages\FluentAssertions.2.0.0.1\lib\net40\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Xbehave">
+      <HintPath>..\..\..\packages\Xbehave.1.0.0-beta02\lib\net40\Xbehave.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit">
+      <HintPath>..\..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\..\..\packages\xunit.extensions.1.9.1\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ValueObjectSpec.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DomainDrivenDesign\DomainDrivenDesign.csproj">
+      <Project>{1c328e4b-0712-405a-99c5-9aaecc34f0f1}</Project>
+      <Name>DomainDrivenDesign</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -77,7 +66,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\..\..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>
