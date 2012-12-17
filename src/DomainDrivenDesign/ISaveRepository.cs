@@ -12,7 +12,7 @@ namespace DomainDrivenDesign
     /// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
     /// <typeparam name="TIdentity">The type of the identity of the aggregate root.</typeparam>
     [ComVisible(true)]
-    public interface ISaveRepository<TAggregateRoot, in TIdentity> where TAggregateRoot : AggregateRoot<TIdentity>
+    public interface ISaveRepository<in TAggregateRoot, TIdentity> where TAggregateRoot : AggregateRoot<TIdentity>
     {
         /// <summary>
         /// Saves <paramref name="aggregateRoot"/>.

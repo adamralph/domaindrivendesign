@@ -13,7 +13,7 @@ namespace DomainDrivenDesign
     /// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
     /// <typeparam name="TIdentity">The type of the identity of the aggregate root.</typeparam>
     [ComVisible(true)]
-    public interface IGetRepository<TAggregateRoot, in TIdentity> where TAggregateRoot : AggregateRoot<TIdentity>
+    public interface IGetRepository<out TAggregateRoot, in TIdentity> where TAggregateRoot : AggregateRoot<TIdentity>
     {
         /// <summary>
         /// Gets the instance of <typeparamref name="TAggregateRoot"/> with <paramref name="identity"/>.
