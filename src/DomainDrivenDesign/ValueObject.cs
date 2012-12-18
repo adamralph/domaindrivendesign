@@ -13,7 +13,7 @@ namespace DomainDrivenDesign
     /// </summary>
     [Serializable]
     [ComVisible(true)]
-    public abstract class ValueObject : IEquatable<ValueObject>
+    public abstract class ValueObject : Model, IEquatable<ValueObject>
     {
         // NOTE (Adam): performance - http://geekswithblogs.net/BlackRabbitCoder/archive/2010/06/09/c-4-the-curious-concurrentdictionary.aspx
         private static readonly ConcurrentDictionary<Type, Func<object, object, bool>> EqualsMethods =
@@ -74,7 +74,7 @@ namespace DomainDrivenDesign
                 return false;
             }
 
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
             {
                 return true;
             }

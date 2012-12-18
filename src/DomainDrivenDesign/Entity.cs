@@ -1,7 +1,6 @@
 ﻿// <copyright file="Entity.cs" company="DomainDrivenDesign contributors">
 //  Copyright (c) DomainDrivenDesign contributors. All rights reserved.
 // </copyright>
-
 namespace DomainDrivenDesign
 {
     using System;
@@ -14,7 +13,7 @@ namespace DomainDrivenDesign
     /// <typeparam name="TIdentity">The type of the identity of the entity.</typeparam>
     [Serializable]
     [ComVisible(true)]
-    public abstract class Entity<TIdentity> : IEquatable<Entity<TIdentity>>
+    public abstract class Entity<TIdentity> : Model, IEquatable<Entity<TIdentity>>
     {
         /// <summary>
         /// Implements the operator ==.
@@ -68,7 +67,7 @@ namespace DomainDrivenDesign
                 return false;
             }
 
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
             {
                 return true;
             }
