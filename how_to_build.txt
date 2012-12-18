@@ -23,7 +23,7 @@ If you have already installed albacore, please update to the lastest version (0.
 Building DomainDrivenDesign
 --------------
 
-1. At the command prompt, navigate to the DomainDrivenDesign root folder (should contain rakefile.rb)
+1. At the command prompt, navigate to the DomainDrivenDesign src folder (should contain rakefile.rb)
 2. To run the default build (which will compile, test and package DomainDrivenDesign) type the following command:
 
 	rake
@@ -32,18 +32,12 @@ In addition, you can see the full list of all the build tasks by running:
 
 	rake -T
 
-To run a particular task ('test' for example), use the following command:
+To run a particular task ('spec' for example), use the following command:
 
-	rake test
+	rake spec
 
 You can run multiple tasks by listing them ('test' then 'nuget' for example):
 
-	rake test nuget_package
+	rake spec nugetpack
 
-After the build has completed, there will be a new folder in the root called "build". It contains the following folders:
-
-* binaries -> All the DomainDrivenDesign assembilies and their dependencies (todo)
-* packages -> Zip file containing the binaries (other configurations might be added in the future) (todo)
-* nuget -> NuGet packages generated from this build (todo)
-* documentation -> Generated documentation (todo)
-* coverage -> Test coverage reports (todo)
+After the build has completed, there will be a new folder in the src folder called "bin" containing the build artifacts.
