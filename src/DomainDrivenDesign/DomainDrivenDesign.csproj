@@ -50,6 +50,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AggregateRoot.cs" />
+    <Compile Include="PersistenceModuleAttribute.cs" />
+    <Compile Include="ModuleAttribute.cs" />
     <Compile Include="IFactory.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="IGetRepository.cs" />
