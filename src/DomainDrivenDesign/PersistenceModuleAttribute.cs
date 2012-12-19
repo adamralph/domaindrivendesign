@@ -2,6 +2,7 @@
 //  Copyright (c) DomainDrivenDesign contributors. All rights reserved.
 // </copyright>
 
+// TODO (Adam): think about how factories may fit in
 namespace DomainDrivenDesign
 {
     using System;
