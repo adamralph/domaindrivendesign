@@ -1,4 +1,4 @@
-﻿// <copyright file="ModuleAttribute.cs" company="DomainDrivenDesign contributors">
+﻿// <copyright file="ModelAttribute.cs" company="DomainDrivenDesign contributors">
 //  Copyright (c) DomainDrivenDesign contributors. All rights reserved.
 // </copyright>
 
@@ -13,7 +13,7 @@ namespace DomainDrivenDesign
     /// </summary>
     [ComVisible(true)]
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-    public sealed class ModuleAttribute : Attribute
+    public sealed class ModelAttribute : Attribute
     {
     }
 }

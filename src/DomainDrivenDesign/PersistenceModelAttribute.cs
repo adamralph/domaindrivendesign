@@ -1,4 +1,4 @@
-﻿// <copyright file="PersistenceModuleAttribute.cs" company="DomainDrivenDesign contributors">
+﻿// <copyright file="PersistenceModelAttribute.cs" company="DomainDrivenDesign contributors">
 //  Copyright (c) DomainDrivenDesign contributors. All rights reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace DomainDrivenDesign
     /// </summary>
     [ComVisible(true)]
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-    public sealed class PersistenceModuleAttribute : Attribute
+    public sealed class PersistenceModelAttribute : Attribute
     {
     }
 }
