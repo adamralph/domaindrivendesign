@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>DomainDrivenDesign</id>
-    <version>0.1.0-alpha03</version>
+    <version>0.1.0-alpha04</version>
     <title>DomainDrivenDesign</title>
     <authors>Adam Ralph, DomainDrivenDesign contributors</authors>
     <projectUrl>https://github.com/domaindrivendesign/domaindrivendesign</projectUrl>
