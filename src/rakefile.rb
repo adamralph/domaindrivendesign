@@ -3,7 +3,7 @@ require 'albacore'
 require 'fileutils'
 
 task :default => [ :clean, :build, :spec, :nugetpack ]
-task :mono => [ :cleanmono, :buildmono ]
+task :mono => [ :cleanmono, :buildmono, :specmono ]
 
 desc "Clean solution"
 msbuild :clean do |msb|
@@ -38,6 +38,12 @@ xunit :spec do |xunit|
   xunit.command = "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
   xunit.html_output = "test/DomainDrivenDesign.Specs/bin/Debug"
+end
+
+desc "Execute specs"
+xunit :specmono do |xunit|
+  xunit.command = "xunitmono.sh"
+  xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
 end
 
 desc "Create the nuget package"
