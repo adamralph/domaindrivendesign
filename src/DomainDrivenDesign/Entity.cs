@@ -43,11 +43,11 @@ namespace DomainDrivenDesign
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Entity{TIdentity}" /> is equal to this instance.
+        /// Determines whether the specified entity is equal to this instance.
         /// </summary>
-        /// <param name="other">The <see cref="Entity{TIdentity}" /> to compare with this instance.</param>
+        /// <param name="other">The entity to compare with this instance.</param>
         /// <returns>
-        ///     <c>true</c> if the specified <see cref="Entity{TIdentity}" /> is equal to this instance; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified entity is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public bool Equals(Entity<TIdentity> other)
         {

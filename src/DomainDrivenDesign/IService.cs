@@ -8,7 +8,7 @@ namespace DomainDrivenDesign
     using System.Runtime.InteropServices;
 
     /// <summary>
-    /// Encapsulates a stateless operation that is not a natural part of an instance of <see cref="Entity{TIdentity}"/> or <see cref="ValueObject"/>,
+    /// Encapsulates a stateless operation that is not a natural part of an instance of entity or <see cref="ValueObject"/>,
     /// defined in terms of other elements of the domain model.
     /// </summary>
     [ComVisible(true)]

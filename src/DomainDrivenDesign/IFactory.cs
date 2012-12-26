@@ -8,7 +8,7 @@ namespace DomainDrivenDesign
     using System.Runtime.InteropServices;
 
     /// <summary>
-    /// Encapsulates the creation of an instance of <see cref="Entity{TIdentity}"/> or <see cref="ValueObject"/>.
+    /// Encapsulates the creation of an instance of entity or <see cref="ValueObject"/>.
     /// </summary>
     [ComVisible(true)]
     [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Communicates intent only.")]
