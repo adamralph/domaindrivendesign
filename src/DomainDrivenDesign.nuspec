@@ -13,4 +13,8 @@
     <copyright>Copyright (c) DomainDrivenDesign contributors. (domaindrivendesignch@gmail.com)</copyright>
     <tags>DDD domain driven design</tags>
   </metadata>
+  <files>
+    <file src="DomainDrivenDesign\bin\Release\DomainDrivenDesign.dll" target="lib\net40" />
+    <file src="DomainDrivenDesign\bin\Release\DomainDrivenDesign.xml" target="lib\net40" />
+  </files>
 </package>
