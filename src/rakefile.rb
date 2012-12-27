@@ -49,6 +49,7 @@ xunit :specmono do |xunit|
     xunit.command = "xunitmono.sh"
   end
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
+  xunit.options "/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll.html"
 end
 
 desc "Create the nuget package"
