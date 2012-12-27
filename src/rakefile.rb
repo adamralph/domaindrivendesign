@@ -43,7 +43,11 @@ end
 
 desc "Execute specs"
 xunit :specmono do |xunit|
-  xunit.command = "xunitmono.sh"
+  if ENV["OS"] == "Windows_NT"
+    xunit.command = "xunitmono.bat"
+  else
+    xunit.command = "xunitmono.sh"
+  end
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
 end
 
