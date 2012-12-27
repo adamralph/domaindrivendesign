@@ -28,6 +28,7 @@ end
 
 desc "Build solution"
 xbuild :buildmono do |xb|
+  ENV["CustomBuildSystem"] = "xbuild"
   xb.properties = { :configuration => :Release }
   xb.targets = [ :Build ]
   xb.solution = "DomainDrivenDesign.sln"
