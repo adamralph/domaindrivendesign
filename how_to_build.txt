@@ -19,9 +19,10 @@ If you have already installed albacore, please update to the lastest version (0.
 
 	gem update albacore
 
+4. In order to build using Mono, install Mono 2.10.9 or higher. Earlier versions may also work if Microsoft.Build.dll is manually added to the Mono GAC.
 
 Building DomainDrivenDesign
---------------
+---------------------------
 
 1. At the command prompt, navigate to the DomainDrivenDesign src folder (should contain rakefile.rb)
 2. To run the default build (which will compile, test and package DomainDrivenDesign) type the following command:
@@ -36,8 +37,12 @@ To run a particular task ('spec' for example), use the following command:
 
 	rake spec
 
-You can run multiple tasks by listing them ('test' then 'nuget' for example):
+You can run multiple tasks by listing them ('spec' then 'nugetpack' for example):
 
 	rake spec nugetpack
 
+You can build using mono by running the 'mono' task.
+
+    rake mono
+    
 After the build has completed, there will be a new folder in the src folder called "bin" containing the build artifacts.

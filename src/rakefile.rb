@@ -3,7 +3,9 @@ require 'albacore'
 require 'fileutils'
 
 task :default => [ :clean, :build, :spec, :nugetpack ]
-task :mono => [ :cleanmono, :buildmono, :specmono ]
+
+desc "Run all Mono tasks"
+task :mono => [ :cleanmono, :buildmono, :specmono, :nugetpackmono ]
 
 desc "Clean solution"
 msbuild :clean do |msb|
@@ -12,7 +14,7 @@ msbuild :clean do |msb|
   msb.solution = "DomainDrivenDesign.sln"
 end
 
-desc "Clean solution"
+desc "Clean solution using Mono"
 xbuild :cleanmono do |xb|
   xb.properties = { :configuration => :Release }
   xb.targets = [ :Clean ]
@@ -26,7 +28,7 @@ msbuild :build do |msb|
   msb.solution = "DomainDrivenDesign.sln"
 end
 
-desc "Build solution"
+desc "Build solution using Mono"
 xbuild :buildmono do |xb|
   ENV["CustomBuildSystem"] = "xbuild"
   xb.properties = { :configuration => :Release }
@@ -41,7 +43,7 @@ xunit :spec do |xunit|
   xunit.html_output = "test/DomainDrivenDesign.Specs/bin/Debug"
 end
 
-desc "Execute specs"
+desc "Execute specs using Mono"
 xunit :specmono do |xunit|
   if ENV["OS"] == "Windows_NT"
     xunit.command = "xunitmono.bat"
@@ -56,7 +58,21 @@ desc "Create the nuget package"
 nugetpack :nugetpack do |nuget|
   FileUtils.mkpath "bin"
   
-  nuget.command = "../packages/NuGet.CommandLine.2.1.2/tools/NuGet.exe"
-  nuget.nuspec = "DomainDrivenDesign.nuspec"
+  nuget.command = "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
+  nuget.nuspec = "DomainDrivenDesign.Windows_NT.nuspec"
+  nuget.output = "bin"
+end
+
+desc "Create the nuget package using Mono"
+nugetpack :nugetpackmono do |nuget|
+  FileUtils.mkpath "bin"
+  
+  if ENV["OS"] == "Windows_NT"
+    nuget.command = "nugetmono.bat"
+    nuget.nuspec = "DomainDrivenDesign.Windows_NT.nuspec"
+  else
+    nuget.command = "nugetmono.sh"
+    nuget.nuspec = "DomainDrivenDesign.nuspec"
+  end
   nuget.output = "bin"
 end
