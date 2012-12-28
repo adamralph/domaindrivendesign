@@ -54,6 +54,7 @@ xunit :specmono do |xunit|
   xunit.options "/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll.html"
 end
 
+# NOTE (Adam): nuspec files can be consolidated after NuGet 2.3 is released - see http://nuget.codeplex.com/workitem/2767
 desc "Create the nuget package"
 nugetpack :nugetpack do |nuget|
   FileUtils.mkpath "bin"
