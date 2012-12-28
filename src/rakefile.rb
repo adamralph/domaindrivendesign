@@ -30,7 +30,7 @@ end
 
 desc "Build solution using Mono"
 xbuild :buildmono do |xb|
-  ENV["CustomBuildSystem"] = "xbuild"
+  ENV["BuildSystem"] = "xbuild"
   xb.properties = { :configuration => :Release }
   xb.targets = [ :Build ]
   xb.solution = "DomainDrivenDesign.sln"
