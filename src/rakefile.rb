@@ -6,7 +6,7 @@ task :default => [ :clean, :build, :spec, :nugetpack ]
 
 desc "Forces use of mono for all subsequent tasks"
 task :mono do
-  ENV["FORCEMONO"] = "FORCEMONO"
+  ENV["MONO"] = "1"
 end
 
 desc "Clean solution"
@@ -28,10 +28,8 @@ end
 desc "Build solution"
 task :build do
   if use_mono then
-    ENV["MONO"] = "MONO"
     build = XBuild.new
   else
-    ENV["MONO"] = ""
     build = MSBuild.new
   end
   
@@ -82,5 +80,5 @@ nugetpack :nugetpack do |nuget|
 end
 
 def use_mono()
-  return ENV["OS"] != "Windows_NT" || ENV["FORCEMONO"]
+  return ENV["OS"] != "Windows_NT" || ENV["MONO"]
 end
