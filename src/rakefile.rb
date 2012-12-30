@@ -38,6 +38,7 @@ desc "Create the nuget package"
 nugetpack :nugetpack do |nuget|
   FileUtils.mkpath "bin"
   
+  # NOTE (Adam): nuspec files can be consolidated after NuGet 2.3 is released - see http://nuget.codeplex.com/workitem/2767
   nuget.command = get_nuget_command
   nuget.nuspec = [ "DomainDrivenDesign", ENV["OS"], "nuspec" ].select { |token| token }.join(".")  
   nuget.output = "bin"
