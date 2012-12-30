@@ -4,11 +4,6 @@ require 'fileutils'
 
 task :default => [ :clean, :build, :spec, :nugetpack ]
 
-desc "Forces use of Mono for all subsequent tasks"
-task :mono do
-  set_mono
-end
-
 desc "Clean solution"
 task :clean do
   FileUtils.rmtree "bin"
@@ -43,10 +38,6 @@ nugetpack :nugetpack do |nuget|
   nuget.command = get_nuget_command
   nuget.nuspec = [ "DomainDrivenDesign", ENV["OS"], "nuspec" ].select { |token| token }.join(".")  
   nuget.output = "bin"
-end
-
-def set_mono()
-  ENV["MONO"] = 1
 end
 
 def use_mono()
