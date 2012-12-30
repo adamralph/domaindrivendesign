@@ -33,7 +33,7 @@ end
 
 desc "Execute specs"
 xunit :spec do |xunit|
-  xunit.command = RakeHelper.get_xunit_command(:net40)
+  xunit.command = RakeHelper.xunit_command(:net40)
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
   xunit.options "/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll.html"
 end
@@ -43,7 +43,7 @@ nugetpack :nugetpack do |nuget|
   FileUtils.mkpath "bin"
   
   # NOTE (Adam): nuspec files can be consolidated after NuGet 2.3 is released - see http://nuget.codeplex.com/workitem/2767
-  nuget.command = RakeHelper.get_nuget_command
+  nuget.command = RakeHelper.nuget_command
   nuget.nuspec = [ "DomainDrivenDesign", ENV["OS"], "nuspec" ].select { |token| token }.join(".")  
   nuget.output = "bin"
 end

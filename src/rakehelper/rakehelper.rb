@@ -1,9 +1,9 @@
 module RakeHelper
-  def RakeHelper.get_xunit_command(version)
+  def RakeHelper.xunit_command(version)
     return use_mono ? File.dirname(__FILE__) + "/xunit.console.mono." + version.to_s + "." + script_extension : ENV["XunitConsole_" + version.to_s]
   end
 
-  def RakeHelper.get_nuget_command
+  def RakeHelper.nuget_command
     return use_mono ? File.dirname(__FILE__) + "/Nuget.Mono." + script_extension : ENV["NuGetConsole"]
   end
 
