@@ -4,21 +4,16 @@ require 'fileutils'
 
 task :default => [ :clean, :build, :spec, :nugetpack ]
 
-desc "Forces use of mono for all subsequent tasks"
+desc "Forces use of Mono for all subsequent tasks"
 task :mono do
-  ENV["MONO"] = "1"
+  set_mono
 end
 
 desc "Clean solution"
 task :clean do
   FileUtils.rmtree "bin"
 
-  if use_mono then
-    build = XBuild.new
-  else
-    build = MSBuild.new
-  end
-  
+  build = get_build_task
   build.properties = { :configuration => :Release }
   build.targets = [ :Clean ]
   build.solution = "DomainDrivenDesign.sln"
@@ -27,12 +22,7 @@ end
 
 desc "Build solution"
 task :build do
-  if use_mono then
-    build = XBuild.new
-  else
-    build = MSBuild.new
-  end
-  
+  build = get_build_task
   build.properties = { :configuration => :Release }
   build.targets = [ :Build ]
   build.solution = "DomainDrivenDesign.sln"
@@ -41,16 +31,7 @@ end
 
 desc "Execute specs"
 xunit :spec do |xunit|
-  if use_mono then
-    if ENV["OS"] == "Windows_NT"
-      xunit.command = "xunitmono.bat"
-    else
-      xunit.command = "xunitmono.sh"
-    end
-  else
-    xunit.command = "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
-  end if
-  
+  xunit.command = get_xunit_command
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
   xunit.options "/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll.html"
 end
@@ -59,26 +40,47 @@ desc "Create the nuget package"
 nugetpack :nugetpack do |nuget|
   FileUtils.mkpath "bin"
   
-  if use_mono then
-    if ENV["OS"] == "Windows_NT"
-      nuget.command = "nugetmono.bat"
-    else
-      nuget.command = "nugetmono.sh"
-    end
-  else
-    nuget.command = "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
-  end
-
-  # NOTE (Adam): nuspec files can be consolidated after NuGet 2.3 is released - see http://nuget.codeplex.com/workitem/2767
-  if ENV["OS"] == "Windows_NT"
-    nuget.nuspec = "DomainDrivenDesign.Windows_NT.nuspec"
-  else
-    nuget.nuspec = "DomainDrivenDesign.nuspec"
-  end
-  
+  nuget.command = get_nuget_command
+  nuget.nuspec = [ "DomainDrivenDesign", ENV["OS"], "nuspec" ].select { |token| token }.join(".")  
   nuget.output = "bin"
+end
+
+def set_mono()
+  ENV["MONO"] = 1
 end
 
 def use_mono()
   return ENV["OS"] != "Windows_NT" || ENV["MONO"]
+end
+
+def get_build_task()
+  if use_mono
+    return XBuild.new
+  else
+    return MSBuild.new
+  end
+end
+
+def get_xunit_command()
+  if use_mono
+    if ENV["OS"] == "Windows_NT"
+      return "xunitmono.bat"
+    else
+      return "xunitmono.sh"
+    end
+  else
+    return "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
+  end
+end
+
+def get_nuget_command()
+  if use_mono
+    if ENV["OS"] == "Windows_NT"
+      return "nugetmono.bat"
+    else
+      return "nugetmono.sh"
+    end
+  else
+    return "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
+  end
 end
