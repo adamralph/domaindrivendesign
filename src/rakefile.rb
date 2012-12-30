@@ -1,10 +1,9 @@
-require 'rubygems'
 require 'albacore'
 require 'fileutils'
 require File.expand_path('rakehelper/rakehelper', File.dirname(__FILE__))
 
-ENV["XunitConsole40"] = "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
-ENV["NuGetConsole"] = "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
+ENV["XunitConsolePath"] = "../packages/xunit.runners.1.9.1/tools/"
+ENV["NuGetConsolePath"] = "../packages/NuGet.CommandLine.2.2.0/tools/"
 
 Albacore.configure do |config|
   config.log_level = :verbose
@@ -16,7 +15,7 @@ desc "Clean solution"
 task :clean do
   FileUtils.rmtree "bin"
 
-  build = RakeHelper.get_build_task
+  build = RakeHelper.use_mono ? XBuild.new : MSBuild.new
   build.properties = { :configuration => :Release }
   build.targets = [ :Clean ]
   build.solution = "DomainDrivenDesign.sln"
@@ -25,7 +24,7 @@ end
 
 desc "Build solution"
 task :build do
-  build = RakeHelper.get_build_task
+  build = RakeHelper.use_mono ? XBuild.new : MSBuild.new
   build.properties = { :configuration => :Release }
   build.targets = [ :Build ]
   build.solution = "DomainDrivenDesign.sln"
@@ -34,7 +33,7 @@ end
 
 desc "Execute specs"
 xunit :spec do |xunit|
-  xunit.command = RakeHelper.get_xunit_command_net40
+  xunit.command = RakeHelper.get_xunit_command(:net40)
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
   xunit.options "/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll.html"
 end
