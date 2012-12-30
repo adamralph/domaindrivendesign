@@ -1,2 +1,2 @@
 #!/bin/sh
-mono --runtime=v4.0 "${XunitConsolePath}xunit.console.clr4.exe" $*
+mono --runtime=v4.0 "${XunitConsole_net40}" $*

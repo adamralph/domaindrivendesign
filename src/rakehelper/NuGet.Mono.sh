@@ -1,2 +1,2 @@
 #!/bin/sh
-mono --runtime=v4.0 "${NuGetConsolePath}NuGet.exe" $*
+mono --runtime=v4.0 "${NuGetConsole}" $*

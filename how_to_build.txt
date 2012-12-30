@@ -44,5 +44,7 @@ You can run multiple tasks by listing them ('spec' then 'nugetpack' for example)
 You can force the use of Mono in Windows by setting the 'mono' variable to a non-empty value.
 
     rake mono=x
+    rake mono=x spec
+    rake mono=x spec nugetpack
     
 After the build has completed, there will be a new folder in the src folder called "bin" containing the build artifacts.
