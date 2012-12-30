@@ -2,6 +2,9 @@ require 'rubygems'
 require 'albacore'
 require 'fileutils'
 
+ENV["XunitConsole40"] = "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
+ENV["NuGetConsole"] = "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
+
 task :default => [ :clean, :build, :spec, :nugetpack ]
 
 desc "Clean solution"
@@ -26,7 +29,7 @@ end
 
 desc "Execute specs"
 xunit :spec do |xunit|
-  xunit.command = get_xunit_command
+  xunit.command = get_xunit_command_net40
   xunit.assembly = "test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll"
   xunit.options "/html test/DomainDrivenDesign.Specs/bin/Debug/DomainDrivenDesign.Specs.dll.html"
 end
@@ -41,7 +44,7 @@ nugetpack :nugetpack do |nuget|
 end
 
 def use_mono()
-  return ENV["OS"] != "Windows_NT" || ENV["MONO"]
+  return ENV["OS"] != "Windows_NT" || ENV["Mono"]
 end
 
 def get_build_task()
@@ -52,15 +55,15 @@ def get_build_task()
   end
 end
 
-def get_xunit_command()
+def get_xunit_command_net40()
   if use_mono
     if ENV["OS"] == "Windows_NT"
-      return "xunitmono.bat"
+      return "xunitmono40.bat"
     else
-      return "xunitmono.sh"
+      return "xunitmono40.sh"
     end
   else
-    return "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
+    return ENV["XunitConsole40"]
   end
 end
 
@@ -72,6 +75,6 @@ def get_nuget_command()
       return "nugetmono.sh"
     end
   else
-    return "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
+    return ENV["NuGetConsole"]
   end
 end
