@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		DomainDrivenDesign.nuspec = DomainDrivenDesign.nuspec
 		DomainDrivenDesign.ruleset = DomainDrivenDesign.ruleset
 		DomainDrivenDesign.snk = DomainDrivenDesign.snk
+		DomainDrivenDesign.Windows_NT.nuspec = DomainDrivenDesign.Windows_NT.nuspec
 		nuget.config = nuget.config
 		rakefile.rb = rakefile.rb
 		Settings.StyleCop = Settings.StyleCop
