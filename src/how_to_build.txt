@@ -49,7 +49,7 @@ You can run multiple tasks by listing them ('spec' then 'nugetpack' for example)
 
     rake spec nugetpack
 
-You can force the use of Mono in Windows by executing the 'mono' task. Specifying the 'mono' task alone will execute the 'default' task using Mono. Specifying the 'mono' task in conjunction with other tasks will force the use of Mono for all the tasks which follow the 'mono' task.
+You can force the use of Mono in Windows by executing the 'mono' task. Specifying the 'mono' task alone will execute the default build using Mono. Specifying the 'mono' task in conjunction with other tasks will force the use of Mono for all the tasks which follow the 'mono' task.
 
     rake mono
     rake mono spec
