@@ -21,6 +21,14 @@ If you have already installed albacore, please update to the lastest version (0.
 
 4. In order to build using Mono, install Mono 2.10.9 or higher. Earlier versions may also work if Microsoft.Build.dll is manually added to the Mono GAC.
 
+5. If using Linux or OSX, you may have to grant yourself execute permissions on the shell script files under src/rakehelper. This can be done with (assuming you are in the root folder of your clone):
+
+	chmod 744 src/rakehelper/*.sh
+
+   You may also need to change your git config to ignore the file mode changes with:
+
+	git config core.filemode false
+
 Building DomainDrivenDesign
 ---------------------------
 
