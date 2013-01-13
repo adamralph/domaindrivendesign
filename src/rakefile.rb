@@ -11,7 +11,7 @@ end
 
 task :default => [ :clean, :build, :spec, :nugetpack ]
 
-desc "Force usage of Mono in Windows for subsequent tasks"
+desc "Forces the use of Mono in Windows"
 task :mono do
   ENV["Mono"] = "x"
   if ARGV.length == 1 && ARGV[0] = "mono"
